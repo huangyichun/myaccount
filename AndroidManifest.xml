@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.myaccount.activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,8 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.myaccount.HomeActivity" />
-
+        <activity android:name="com.example.myaccount.activity.HomeActivity" />
+		<activity android:name="com.example.myaccount.activity.MonthActivity"/>
+		<activity android:name="com.example.myaccount.activity.NewOutputActivity"/>
+		<activity android:name="com.example.myaccount.activity.NewInputActivity"/>
+		<activity android:name="com.example.myaccount.activity.BudgetActivity"/>
     </application>
 
 </manifest>

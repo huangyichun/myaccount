@@ -107,7 +107,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="50dp"
                 android:text="0.00"
-               android:textColor="#e65100"
+                android:textColor="#e65100"
                 android:textSize="18sp" />
 
             <TextView
@@ -219,6 +219,7 @@
         android:src="@drawable/icon" />
 
     <RelativeLayout
+        android:id="@+id/rl_today"
         android:layout_width="match_parent"
         android:layout_height="70dp" >
 
@@ -240,16 +241,18 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/iv_today"
             android:text="今天"
-            android:textColor="#000000"
+            android:textColor="#424242"
             android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/tv_today_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/tv_today"
             android:layout_below="@id/tv_today"
             android:layout_marginBottom="10dp"
             android:text="最近一笔 早餐6.0"
+            android:textColor="#9e9e9e"
             android:textSize="15sp" />
 
         <TextView
@@ -260,7 +263,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
             android:text="10.00"
-            android:textColor="#0a8f08"
+            android:textColor="#e51c23"
             android:textSize="15sp" />
 
         <TextView
@@ -271,7 +274,7 @@
             android:layout_below="@id/tv_today_input"
             android:layout_marginBottom="10dp"
             android:text="6.00"
-            android:textColor="#e51c23"
+            android:textColor="#0a8f08"
             android:textSize="15sp" />
 
         <ImageView
@@ -290,6 +293,7 @@
         android:src="@drawable/icon" />
 
     <RelativeLayout
+        android:id="@+id/rl_week"
         android:layout_width="match_parent"
         android:layout_height="70dp" >
 
@@ -311,16 +315,18 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/iv_week"
             android:text="本周"
-            android:textColor="#000000"
+            android:textColor="#424242"
             android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/tv_week_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/tv_week"
             android:layout_below="@id/tv_week"
             android:layout_marginBottom="10dp"
             android:text="最近一笔 早餐6.0"
+            android:textColor="#9e9e9e"
             android:textSize="15sp" />
 
         <TextView
@@ -331,7 +337,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
             android:text="10.00"
-            android:textColor="#0a8f08"
+            android:textColor="#e51c23"
             android:textSize="15sp" />
 
         <TextView
@@ -342,7 +348,7 @@
             android:layout_below="@id/tv_week_input"
             android:layout_marginBottom="10dp"
             android:text="6.00"
-            android:textColor="#e51c23"
+            android:textColor="#0a8f08"
             android:textSize="15sp" />
 
         <ImageView
@@ -361,6 +367,7 @@
         android:src="@drawable/icon" />
 
     <RelativeLayout
+        android:id="@+id/rl_month"
         android:layout_width="match_parent"
         android:layout_height="70dp" >
 
@@ -382,16 +389,18 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/iv_month"
             android:text="本月"
-            android:textColor="#000000"
+            android:textColor="#424242"
             android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/tv_month_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/tv_month"
             android:layout_below="@id/tv_month"
             android:layout_marginBottom="10dp"
             android:text="最近一笔 早餐6.0"
+            android:textColor="#9e9e9e"
             android:textSize="15sp" />
 
         <TextView
@@ -402,7 +411,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
             android:text="10.00"
-            android:textColor="#0a8f08"
+            android:textColor="#e51c23"
             android:textSize="15sp" />
 
         <TextView
@@ -413,7 +422,7 @@
             android:layout_below="@id/tv_month_input"
             android:layout_marginBottom="10dp"
             android:text="6.00"
-            android:textColor="#e51c23"
+            android:textColor="#0a8f08"
             android:textSize="15sp" />
 
         <ImageView
@@ -432,6 +441,7 @@
         android:src="@drawable/icon" />
 
     <RelativeLayout
+        android:id="@+id/rl_year"
         android:layout_width="match_parent"
         android:layout_height="70dp" >
 
@@ -452,17 +462,19 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/iv_year"
-            android:text="本月"
-            android:textColor="#000000"
+            android:text="本年"
+            android:textColor="#424242"
             android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/tv_year_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/tv_year"
             android:layout_below="@id/tv_year"
             android:layout_marginBottom="10dp"
             android:text="最近一笔 早餐6.0"
+            android:textColor="#9e9e9e"
             android:textSize="15sp" />
 
         <TextView
@@ -473,7 +485,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
             android:text="10.00"
-            android:textColor="#0a8f08"
+            android:textColor="#e51c23"
             android:textSize="15sp" />
 
         <TextView
@@ -484,7 +496,7 @@
             android:layout_below="@id/tv_year_input"
             android:layout_marginBottom="10dp"
             android:text="6.00"
-            android:textColor="#e51c23"
+            android:textColor="#0a8f08"
             android:textSize="15sp" />
 
         <ImageView

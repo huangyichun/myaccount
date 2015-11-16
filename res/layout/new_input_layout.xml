@@ -192,6 +192,7 @@
         android:layout_height="90dp"
         android:hint="请填写备注信息"
         android:maxLines="4"
+        android:textColor="#757575"
         android:textSize="15sp" />
 
     <Button
@@ -200,7 +201,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="50dp"
-     	android:background="#f57c00"
+     	android:background="@drawable/shape"
         android:gravity="center"
         android:text="保存"
         android:layout_marginLeft="20dp" 

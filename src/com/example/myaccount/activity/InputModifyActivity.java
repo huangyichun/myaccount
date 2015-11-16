@@ -5,7 +5,11 @@ import java.util.Calendar;
 
 import com.example.myaccount.R;
 import com.example.myaccount.db.MyAccountOpenHelper;
+import com.example.myaccount.model.DayConsume;
+import com.example.myaccount.model.WeekConsume;
+import com.example.myaccount.model.YearConsume;
 import com.example.myaccount.util.DateUtil;
+import com.example.myaccount.util.MathUtil;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,9 +20,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
@@ -32,7 +38,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class NewOutputActivity extends Activity implements OnClickListener {
+public class InputModifyActivity extends Activity implements OnClickListener {
 
 	private MyAccountOpenHelper dbHelper;
 	private static final String TAG = "NewOutputActivity";
@@ -52,18 +58,67 @@ public class NewOutputActivity extends Activity implements OnClickListener {
 	private Button bt_contain;
 	private EditText et_notes;
 	private ImageView iv_contain;
+	private int id;
+	private Button bt_dele;
+	private Double money;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.new_output_layout);
+		setContentView(R.layout.input_modify_layout);
 		sp = getSharedPreferences("config", MODE_PRIVATE);
 		dbHelper = new MyAccountOpenHelper(this, "Account.db", null, 1);
 
 		// 初始化控件
 		init();
+
+		DayConsume dayConsume = (DayConsume) getIntent().getSerializableExtra(
+				"dayConsume");
+		if(dayConsume != null){
+			id = dayConsume.getId();
+		}
+		
+		
+		WeekConsume weekConsume = (WeekConsume) getIntent().getSerializableExtra("WeekConsume");
+		if(weekConsume != null){
+			id = weekConsume.getId();
+		}
+		
+		YearConsume yearConsume = (YearConsume) getIntent().getSerializableExtra("YearConsume");
+		if(yearConsume != null){
+			id = yearConsume.getId();
+		}
+		
+		Log.d(TAG, id + "");
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		Cursor cursor = db.query("InputAccount", null, "id = ? ",
+				new String[] { "" + id }, null, null, null);
+
+		if (cursor.moveToFirst()) {
+			Log.d(TAG, "运行到这里了3");
+
+			String type = cursor.getString(cursor.getColumnIndex("input_type"));
+			money = (double) cursor.getFloat(cursor
+					.getColumnIndex("input_money"));
+			String account = cursor.getString(cursor
+					.getColumnIndex("input_account"));
+			String notes = cursor.getString(cursor
+					.getColumnIndex("input_notes"));
+			int year = cursor.getInt(cursor.getColumnIndex("input_year"));
+			int month = cursor.getInt(cursor.getColumnIndex("input_month"));
+			int day = cursor.getInt(cursor.getColumnIndex("input_date"));
+
+			et_output_money.setText(MathUtil.setTwoPoint(money));
+			tv_output_type.setText(type);
+			tv_output_account.setText(account);
+			tv_output_time.setText(year + "-" + month + "-" + day);
+
+			et_notes.setText(notes);
+
+		}
+		cursor.close();
 
 		iv_back.setOnClickListener(this);
 		rl_new_output.setOnClickListener(this);
@@ -75,6 +130,7 @@ public class NewOutputActivity extends Activity implements OnClickListener {
 		bt_contain.setOnClickListener(this);
 		iv_contain.setOnClickListener(this);
 
+		bt_dele.setOnClickListener(this);
 	}
 
 	/**
@@ -94,7 +150,7 @@ public class NewOutputActivity extends Activity implements OnClickListener {
 		bt_contain = (Button) findViewById(R.id.bt_contain);
 		et_notes = (EditText) findViewById(R.id.et_notes);
 		iv_contain = (ImageView) findViewById(R.id.iv_contain);
-
+		bt_dele = (Button) findViewById(R.id.bt_dele);
 		tv_output_time.setText(DateUtil.getDate());
 	}
 
@@ -106,7 +162,8 @@ public class NewOutputActivity extends Activity implements OnClickListener {
 			finish();
 			break;
 		case R.id.rl_new_output:
-			intent = new Intent(NewOutputActivity.this, NewInputActivity.class);
+			intent = new Intent(InputModifyActivity.this,
+					NewOutputActivity.class);
 			startActivity(intent);
 			finish();
 			break;
@@ -116,9 +173,9 @@ public class NewOutputActivity extends Activity implements OnClickListener {
 			break;
 
 		case R.id.rl_output_type:
-			final String item1[] = { "食品酒水	", "衣服饰品", "居家物业", "行车交通", "交流通讯",
-					"休闲娱乐", "学习进修", "人情往来", "医疗保健", "金融保险", "其他杂项" };
-			dialog = new AlertDialog.Builder(NewOutputActivity.this);
+			final String item1[] = { "工资收入	", "利息收入", "加班收入", "奖金收入", "投资收入",
+					"兼职收入", "其他收入" };
+			dialog = new AlertDialog.Builder(InputModifyActivity.this);
 			dialog.setTitle("请选择消费类型");
 			dialog.setSingleChoiceItems(item1, 0,
 					new DialogInterface.OnClickListener() {
@@ -136,7 +193,7 @@ public class NewOutputActivity extends Activity implements OnClickListener {
 		case R.id.rl_output_account:
 			final String[] item2 = { "现金	", "信用卡", "银行卡", "饭卡", "支付宝", "公交卡",
 					"其他" };
-			dialog = new AlertDialog.Builder(NewOutputActivity.this);
+			dialog = new AlertDialog.Builder(InputModifyActivity.this);
 			dialog.setTitle("请选择消费类型");
 			dialog.setSingleChoiceItems(item2, 0,
 					new DialogInterface.OnClickListener() {
@@ -159,7 +216,6 @@ public class NewOutputActivity extends Activity implements OnClickListener {
 						@Override
 						public void onDateSet(DatePicker view, int year,
 								int monthOfYear, int dayOfMonth) {
-							/* c.set(year, monthOfYear, dayOfMonth); */
 							tv_output_time.setText(year + "-"
 									+ (monthOfYear + 1) + "-" + dayOfMonth);
 						}
@@ -170,8 +226,14 @@ public class NewOutputActivity extends Activity implements OnClickListener {
 		case R.id.bt_contain:
 		case R.id.iv_contain:
 		case R.id.tv_contain:
-			double money = Double.parseDouble(et_output_money.getText()
-					.toString());
+			String str = et_output_money.getText().toString();
+
+			if (TextUtils.isEmpty(str)) {
+				Toast.makeText(InputModifyActivity.this, "输入的金额不能为0",
+						Toast.LENGTH_LONG).show();
+				return;
+			}
+			double money1 = Double.parseDouble(str);
 			String type = tv_output_type.getText().toString();
 			String account = tv_output_account.getText().toString();
 			String date = tv_output_time.getText().toString();
@@ -181,51 +243,62 @@ public class NewOutputActivity extends Activity implements OnClickListener {
 			int month = Integer.parseInt(time[1]);
 			int day = Integer.parseInt(time[2]);
 			int week = 0;
+			
 			try {
 				week = DateUtil.getWeek(date);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 			try {
-				if (DateUtil.isSunday(year, month, day)) {
-					week =week-1;
+				if(DateUtil.isSunday(year, month, day)){
+					week = week -1;
 				}
 			} catch (ParseException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Log.d(TAG, money + "");
-			Log.d(TAG, type);
-			Log.d(TAG, account);
-			Log.d(TAG, date);
-			Log.d(TAG, week + "");
-			Log.d(TAG, year + "-" + month + "-" + day);
-			if (money <= 0) {
+
+			if (money1 <= 0) {
 				Toast.makeText(this, "金额不能为0", 0).show();
 
 			} else {
 				// 将数据保存导数据库并且存储支出总额
+				Log.d(TAG, money + "");
+				Log.d(TAG, type);
+				Log.d(TAG, account);
+				Log.d(TAG, date);
+				Log.d(TAG, year + "-" + month + "-" + day);
 				SQLiteDatabase db = dbHelper.getWritableDatabase();
 				ContentValues value = new ContentValues();
-				value.put("output_money", money);
-				value.put("output_account", account);
-				value.put("output_notes", notes);
-				value.put("output_year", year);
-				value.put("output_month", month);
+				value.put("input_money", money);
+				value.put("input_account", account);
+				value.put("input_notes", notes);
+				value.put("input_year", year);
+				value.put("input_month", month);
 				
-				value.put("output_week", week);
-				value.put("output_date", day);
-				value.put("output_type", type);
-				db.insert("OutputAccount", null, value);
+				value.put("input_week", week);
+				value.put("input_date", day);
+				value.put("input_type", type);
+				db.insert("InputAccount", null, value);
+			
 				Toast.makeText(this, "保存成功", 0).show();
+
 				finish();
 
 			}
 			break;
+		case R.id.bt_dele:
+			SQLiteDatabase db = dbHelper.getWritableDatabase();
+			db.delete("InputAccount", "id = ?", new String[] { "" + id });
+		
+			Toast.makeText(InputModifyActivity.this, "删除成功", Toast.LENGTH_LONG)
+					.show();
+			finish();
 		default:
 			break;
 		}
 
 	}
+
 }

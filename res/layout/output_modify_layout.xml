@@ -25,11 +25,11 @@
             android:layout_centerVertical="true" >
 
             <TextView
-                android:layout_centerVertical="true" 
                 android:id="@+id/tv_new_output"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="新增支出"
+                android:layout_centerVertical="true"
+                android:text="支出修改"
                 android:textSize="20sp" />
 
             <ImageView
@@ -75,13 +75,13 @@
             android:textSize="20sp" />
 
         <EditText
-            android:inputType="numberDecimal"
             android:id="@+id/et_output_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
+            android:inputType="numberDecimal"
             android:text="0.00"
             android:textColor="#259b24"
             android:textSize="30sp" />
@@ -192,20 +192,35 @@
         android:layout_height="90dp"
         android:hint="请填写备注信息"
         android:maxLines="4"
-        android:textSize="15sp" 
-        android:textColor="#757575"/>
+        android:textColor="#757575"
+        android:textSize="15sp" />
 
-    <Button
-        android:id="@+id/bt_contain"
-        android:textColor="#ffffff"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="50dp"
-     	android:background="@drawable/shape"
-        android:gravity="center"
-        android:text="保存"
-        android:layout_marginLeft="20dp" 
-        android:layout_marginRight="20dp"
-        />
+        android:layout_height="match_parent" >
+
+        <Button
+            android:id="@+id/bt_contain"
+            android:layout_width="140dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="70dp"
+            android:background="@drawable/shape"
+            android:text="保存"
+            android:gravity="center"
+            android:textColor="#ffffff" />
+
+        <Button
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:layout_marginRight="20dp"
+            android:id="@+id/bt_dele"
+            android:layout_width="140dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="70dp"
+            android:background="@drawable/shape"
+            android:text="删除"
+            android:textColor="#ffffff" />
+    </RelativeLayout>
 
 </LinearLayout>

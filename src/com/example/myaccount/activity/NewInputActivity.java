@@ -94,6 +94,8 @@ public class NewInputActivity extends Activity implements OnClickListener {
 		bt_contain = (Button) findViewById(R.id.bt_contain);
 		et_notes = (EditText) findViewById(R.id.et_notes);
 		iv_contain = (ImageView) findViewById(R.id.iv_contain);
+		
+		tv_output_time.setText(DateUtil.getDate());
 	}
 
 	@Override
@@ -158,7 +160,7 @@ public class NewInputActivity extends Activity implements OnClickListener {
 						public void onDateSet(DatePicker view, int year,
 								int monthOfYear, int dayOfMonth) {
 							/*c.set(year, monthOfYear, dayOfMonth);*/
-							tv_output_time.setText(year+"-"+monthOfYear+"-"+dayOfMonth);
+							tv_output_time.setText(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
 						}
 					}, c.get(Calendar.YEAR), c.get(Calendar.MONTH),
 					c.get(Calendar.DAY_OF_MONTH));
@@ -180,7 +182,6 @@ public class NewInputActivity extends Activity implements OnClickListener {
 			try {
 				week = DateUtil.getWeek(date);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -201,15 +202,20 @@ public class NewInputActivity extends Activity implements OnClickListener {
 				value.put("input_notes", notes);
 				value.put("input_year", year);
 				value.put("input_month", month);
-				value.put("input_week", week);
+				try {
+					if(DateUtil.isSunday(year, month, day)){
+						value.put("input_week", week-1);
+					}else{
+						value.put("input_week", week);
+					}
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
 				value.put("input_date",day);
 				value.put("input_type", type);
 				db.insert("InputAccount", null, value);
-				Editor editor = sp.edit();
-				float opMoney = sp.getFloat("input", 0);
-				float input = (float) (money + opMoney);
-				editor.putFloat("input", input);
-				editor.commit();
+			
 				Toast.makeText(this, "±£´æ³É¹¦", 0).show();
 				
 				finish();

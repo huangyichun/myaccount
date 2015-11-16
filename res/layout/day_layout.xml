@@ -5,12 +5,9 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@+id/rl_budget_layout"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:background="#ffca28"
-        android:focusable="true"
-        android:focusableInTouchMode="true" >
+        android:background="#ffca28" >
 
         <ImageView
             android:id="@+id/iv_back"
@@ -29,7 +26,7 @@
             android:layout_marginLeft="2dp"
             android:layout_marginTop="6dp"
             android:layout_toRightOf="@id/iv_back"
-            android:text="预算"
+            android:text="今天11月11日"
             android:textColor="#d84315"
             android:textSize="20dp" />
 
@@ -42,7 +39,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/update" />
+            android:src="@drawable/add" />
 
         <TextView
             android:id="@+id/tv_month_budge"
@@ -50,19 +47,17 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:text="本月总预算"
+            android:text="结余"
             android:textColor="#d84315"
             android:textSize="15dp" />
 
-        <EditText
+        <TextView
             android:id="@+id/set_budget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_month_budge"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:background="@null"
-            android:inputType="numberDecimal"
             android:text="0.00"
             android:textColor="#bf360c"
             android:textSize="30sp" />
@@ -86,7 +81,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
-            android:text="已用"
+            android:text="收入"
             android:textColor="#bf360c" />
 
         <ImageView
@@ -114,7 +109,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/iv_line5"
-            android:text="可用"
+            android:text="支出"
             android:textColor="#bf360c" />
 
         <TextView
@@ -128,10 +123,49 @@
             android:textColor="#bf360c" />
     </RelativeLayout>
 
-     <ListView
-        android:id="@+id/lv_budge"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </ListView>
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/tv_month_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:text="11"
+            android:textColor="#424242"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/tv_week_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_month_time"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:text="周三"
+            android:textColor="#424242" />
+
+        <TextView
+            android:id="@+id/lv_budge_none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/tv_month_time"
+            android:text="今天还没有记账哦~"
+            android:textSize="15sp"
+            android:visibility="invisible" />
+
+        <ListView
+            android:id="@+id/lv_budge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tv_month_time" >
+        </ListView>
+    </RelativeLayout>
 
 </LinearLayout>

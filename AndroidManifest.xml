@@ -27,6 +27,12 @@
 		<activity android:name="com.example.myaccount.activity.NewOutputActivity"/>
 		<activity android:name="com.example.myaccount.activity.NewInputActivity"/>
 		<activity android:name="com.example.myaccount.activity.BudgetActivity"/>
+		<activity android:name="com.example.myaccount.activity.DayActivity"/>
+		<activity android:name="com.example.myaccount.activity.OutputModifyActivity"/>
+		<activity android:name="com.example.myaccount.activity.InputModifyActivity"/>
+		<activity android:name="com.example.myaccount.activity.WeekExpandableListViewActivity"/>
+		<activity android:name="com.example.myaccount.activity.MonthExpandableListViewActivity"/>
+		<activity android:name="com.example.myaccount.activity.YearExpandableListViewActivity"/>
     </application>
 
 </manifest>

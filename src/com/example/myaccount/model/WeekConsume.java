@@ -3,6 +3,10 @@ package com.example.myaccount.model;
 import java.io.Serializable;
 
 public class WeekConsume implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2L;
 	private String name;
 	private String money;
 	private int imageId;

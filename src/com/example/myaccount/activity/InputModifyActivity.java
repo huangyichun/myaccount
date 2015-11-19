@@ -41,13 +41,11 @@ import android.widget.Toast;
 public class InputModifyActivity extends Activity implements OnClickListener {
 
 	private MyAccountOpenHelper dbHelper;
-	private static final String TAG = "NewOutputActivity";
+	private static final String TAG = "InputModifyActivity";
 	private ImageView iv_back;
 	private Intent intent;
-	private RelativeLayout rl_new_output;
 	private EditText et_output_money;
 	private RelativeLayout rl_output_type;
-	private SharedPreferences sp;
 	private TextView tv_output_type;
 	private RelativeLayout rl_output_account;
 	private TextView tv_output_account;
@@ -68,22 +66,18 @@ public class InputModifyActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.input_modify_layout);
-		sp = getSharedPreferences("config", MODE_PRIVATE);
 		dbHelper = new MyAccountOpenHelper(this, "Account.db", null, 1);
-
+		Log.d(TAG, "yunxing dao zhe lile ");
 		// 初始化控件
 		init();
-
+		WeekConsume weekConsume = (WeekConsume) getIntent().getSerializableExtra("WeekConsume");
+		if(weekConsume != null){
+			id = weekConsume.getId();
+		}
 		DayConsume dayConsume = (DayConsume) getIntent().getSerializableExtra(
 				"dayConsume");
 		if(dayConsume != null){
 			id = dayConsume.getId();
-		}
-		
-		
-		WeekConsume weekConsume = (WeekConsume) getIntent().getSerializableExtra("WeekConsume");
-		if(weekConsume != null){
-			id = weekConsume.getId();
 		}
 		
 		YearConsume yearConsume = (YearConsume) getIntent().getSerializableExtra("YearConsume");
@@ -91,13 +85,12 @@ public class InputModifyActivity extends Activity implements OnClickListener {
 			id = yearConsume.getId();
 		}
 		
-		Log.d(TAG, id + "");
+	
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		Cursor cursor = db.query("InputAccount", null, "id = ? ",
 				new String[] { "" + id }, null, null, null);
 
 		if (cursor.moveToFirst()) {
-			Log.d(TAG, "运行到这里了3");
 
 			String type = cursor.getString(cursor.getColumnIndex("input_type"));
 			money = (double) cursor.getFloat(cursor
@@ -121,7 +114,6 @@ public class InputModifyActivity extends Activity implements OnClickListener {
 		cursor.close();
 
 		iv_back.setOnClickListener(this);
-		rl_new_output.setOnClickListener(this);
 		et_output_money.setOnClickListener(this);
 		rl_output_type.setOnClickListener(this);
 		rl_output_account.setOnClickListener(this);
@@ -138,7 +130,6 @@ public class InputModifyActivity extends Activity implements OnClickListener {
 	 */
 	private void init() {
 		iv_back = (ImageView) findViewById(R.id.iv_back);
-		rl_new_output = (RelativeLayout) findViewById(R.id.rl_new_output);
 		et_output_money = (EditText) findViewById(R.id.et_output_money);
 		rl_output_type = (RelativeLayout) findViewById(R.id.rl_output_type);
 		tv_output_type = (TextView) findViewById(R.id.tv_output_type);
@@ -161,12 +152,7 @@ public class InputModifyActivity extends Activity implements OnClickListener {
 
 			finish();
 			break;
-		case R.id.rl_new_output:
-			intent = new Intent(InputModifyActivity.this,
-					NewOutputActivity.class);
-			startActivity(intent);
-			finish();
-			break;
+		
 		case R.id.et_output_money:
 			et_output_money.setText("");
 
@@ -247,7 +233,6 @@ public class InputModifyActivity extends Activity implements OnClickListener {
 			try {
 				week = DateUtil.getWeek(date);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			try {
@@ -255,23 +240,18 @@ public class InputModifyActivity extends Activity implements OnClickListener {
 					week = week -1;
 				}
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			if (money1 <= 0) {
-				Toast.makeText(this, "金额不能为0", 0).show();
-
-			} else {
+				Toast.makeText(this, "金额不能为0", Toast.LENGTH_SHORT).show();
+				return;
+			} 
 				// 将数据保存导数据库并且存储支出总额
-				Log.d(TAG, money + "");
-				Log.d(TAG, type);
-				Log.d(TAG, account);
-				Log.d(TAG, date);
-				Log.d(TAG, year + "-" + month + "-" + day);
-				SQLiteDatabase db = dbHelper.getWritableDatabase();
+				
+				SQLiteDatabase db2 = dbHelper.getWritableDatabase();
 				ContentValues value = new ContentValues();
-				value.put("input_money", money);
+				value.put("input_money", money1);
 				value.put("input_account", account);
 				value.put("input_notes", notes);
 				value.put("input_year", year);
@@ -280,19 +260,19 @@ public class InputModifyActivity extends Activity implements OnClickListener {
 				value.put("input_week", week);
 				value.put("input_date", day);
 				value.put("input_type", type);
-				db.insert("InputAccount", null, value);
+				db2.update("InputAccount", value, "id = ? ", new String[]{"" + id});
 			
-				Toast.makeText(this, "保存成功", 0).show();
+				Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
 
 				finish();
 
-			}
+			
 			break;
 		case R.id.bt_dele:
-			SQLiteDatabase db = dbHelper.getWritableDatabase();
-			db.delete("InputAccount", "id = ?", new String[] { "" + id });
+			SQLiteDatabase db1 = dbHelper.getWritableDatabase();
+			db1.delete("InputAccount", "id = ?", new String[] { "" + id });
 		
-			Toast.makeText(InputModifyActivity.this, "删除成功", Toast.LENGTH_LONG)
+			Toast.makeText(InputModifyActivity.this, "删除成功", Toast.LENGTH_SHORT)
 					.show();
 			finish();
 		default:

@@ -60,7 +60,7 @@ public class WeekExpandableListViewActivity extends ExpandableListActivity imple
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.week_mian_layout);
 		// 初始化控件
-				initView();
+		initView();
 	
 		
 	}
@@ -245,6 +245,7 @@ public class WeekExpandableListViewActivity extends ExpandableListActivity imple
 		Intent intent;
 		WeekConsume weekConsume = child.get(groupPosition).get(childPosition);
 		String type = weekConsume.getName();
+		Log.d(TAG, weekConsume.getMoney());
 		Log.d(TAG, type);
 		switch (type) {
 		case "工资收入":

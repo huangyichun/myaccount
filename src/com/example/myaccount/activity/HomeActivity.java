@@ -167,10 +167,10 @@ public class HomeActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.rl_input:
+		/*case R.id.rl_input:
 			intent = new Intent(HomeActivity.this, MonthActivity.class);
 			startActivity(intent);
-			break;
+			break;*/
 		case R.id.rl_note:
 			intent = new Intent(HomeActivity.this, NewOutputActivity.class);
 			startActivity(intent);

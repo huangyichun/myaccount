@@ -105,12 +105,14 @@ public class DayActivity extends Activity implements OnClickListener {
 				double money = cursor.getFloat(cursor
 						.getColumnIndex("output_money"));
 				String account = cursor.getString(cursor
-						.getColumnIndex("output_account"));
+						.getColumnIndex("output_notes"));
 				int id = cursor.getInt(cursor.getColumnIndex("id"));
-
+				if(account.length() > 5){
+					account = account.substring(0, 5)+"...";
+				}
 				outputMoney = outputMoney + money;
 
-				dayConsume = new DayConsume(type, account, "" + money, id);
+				dayConsume = new DayConsume(type, "±¸×¢:"+account, "" +MathUtil.setTwoPoint(money) , id);
 				accountList.add(dayConsume);
 
 			} while (cursor.moveToNext());
@@ -130,11 +132,13 @@ public class DayActivity extends Activity implements OnClickListener {
 				double money = cursor.getFloat(cursor
 						.getColumnIndex("input_money"));
 				String account = cursor.getString(cursor
-						.getColumnIndex("input_account"));
-
+						.getColumnIndex("input_notes"));
+				if(account.length() > 5){
+					account = account.substring(0, 5)+"...";
+				}
 				inputMoney = inputMoney + money;
 				int id = cursor.getInt(cursor.getColumnIndex("id"));
-				dayConsume = new DayConsume(type, account, "" + money, id);
+				dayConsume = new DayConsume(type, "±¸×¢:"+account, "" + MathUtil.setTwoPoint(money), id);
 				accountList.add(dayConsume);
 
 			} while (cursor.moveToNext());

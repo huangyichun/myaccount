@@ -62,14 +62,18 @@ public class BudgetActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.budget_layout);
-		Log.d(TAG, "运行到这里了1");
+		
 		dbHelper = new MyAccountOpenHelper(this, "Account.db", null, 1);
 		sp = getSharedPreferences("config", MODE_PRIVATE);
 		// 初始化控件
 		init();
 		// 初始化数据
 		initAccount();
-
+		budget = sp.getFloat("budget", 0);
+		set_budget.setText(MathUtil.setTwoPoint(budget) + "");
+		keYong = budget - outputMoney;
+		tv_keyong.setText(MathUtil.setTwoPoint(keYong));
+		tv_yiyong_1.setText(MathUtil.setTwoPoint(outputMoney));
 		BudgetAdapter adapter = new BudgetAdapter(BudgetActivity.this,
 				R.layout.budget_item_layout, accountList);
 		ListView listView = (ListView) findViewById(R.id.lv_budge);
@@ -142,9 +146,10 @@ public class BudgetActivity extends Activity implements OnClickListener {
 		public void handleMessage(Message msg) {
 			switch (msg.what){
 			case UPDATE_TEXT:
-				
+				budget = sp.getFloat("budget", 0);
 				keYong = budget - outputMoney;
 				tv_keyong.setText(MathUtil.setTwoPoint(keYong));
+				tv_yiyong_1.setText(MathUtil.setTwoPoint(outputMoney));
 				break;
 				default :
 					break;
@@ -173,7 +178,7 @@ public class BudgetActivity extends Activity implements OnClickListener {
 			Editor editor = sp.edit();
 			String str = set_budget.getText().toString();
 			if(TextUtils.isEmpty(str)){
-				Toast.makeText(BudgetActivity.this, "输入的数字不能为空", 1).show();
+				Toast.makeText(BudgetActivity.this, "输入的金额不能为空", Toast.LENGTH_SHORT).show();
 				return;
 			}
 			budget = (float) Double.parseDouble(str);
@@ -234,7 +239,7 @@ public class BudgetActivity extends Activity implements OnClickListener {
 				Log.d(TAG, "运行到这里了4");
 				double money = cursor.getFloat(cursor
 						.getColumnIndex("output_money"));
-
+				outputMoney = outputMoney + money;
 				Log.d(TAG, name + money);
 
 				// 判断类型，选择图片"食品酒水	", "衣服饰品", "居家物业", "行车交通", "交流通讯",
@@ -302,14 +307,10 @@ public class BudgetActivity extends Activity implements OnClickListener {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		budget = sp.getFloat("budget", 0);
-		set_budget.setText(MathUtil.setTwoPoint(budget) + "");
+	
 		
-		outputMoney = sp.getFloat("output", 0);
-		tv_yiyong_1.setText(MathUtil.setTwoPoint(outputMoney));
 		
-		keYong = budget - outputMoney;
-		tv_keyong.setText(MathUtil.setTwoPoint(keYong));
+		
 	}
 
 }

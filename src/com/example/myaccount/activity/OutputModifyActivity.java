@@ -36,13 +36,12 @@ import android.widget.Toast;
 
 public class OutputModifyActivity extends Activity implements OnClickListener {
 	private MyAccountOpenHelper dbHelper;
-	private static final String TAG = "NewOutputActivity";
+	private static final String TAG = "OutputModifyActivity";
 	private ImageView iv_back;
 
-	private RelativeLayout rl_new_output;
+//	private RelativeLayout rl_new_output;
 	private EditText et_output_money;
 	private RelativeLayout rl_output_type;
-	private SharedPreferences sp;
 	private TextView tv_output_type;
 	private RelativeLayout rl_output_account;
 	private TextView tv_output_account;
@@ -63,7 +62,6 @@ public class OutputModifyActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.output_modify_layout);
-		sp = getSharedPreferences("config", MODE_PRIVATE);
 		dbHelper = new MyAccountOpenHelper(this, "Account.db", null, 1);
 		// 初始化控件
 		init();
@@ -73,12 +71,12 @@ public class OutputModifyActivity extends Activity implements OnClickListener {
 		if(dayConsume != null){
 			id = dayConsume.getId();
 		}
-		WeekConsume weekConsume = (WeekConsume) getIntent().getSerializableExtra("weekConsume");
+		WeekConsume weekConsume = (WeekConsume) getIntent().getSerializableExtra("WeekConsume");
 		if(weekConsume != null){
 			id = weekConsume.getId();
 		}
 		
-		YearConsume yearConsume = (YearConsume) getIntent().getSerializableExtra("yearConsume");
+		YearConsume yearConsume = (YearConsume) getIntent().getSerializableExtra("YearConsume");
 		if(yearConsume != null){
 			id = yearConsume.getId();
 		}
@@ -114,7 +112,6 @@ public class OutputModifyActivity extends Activity implements OnClickListener {
 		cursor.close();
 
 		iv_back.setOnClickListener(this);
-		rl_new_output.setOnClickListener(this);
 		et_output_money.setOnClickListener(this);
 		rl_output_type.setOnClickListener(this);
 		rl_output_account.setOnClickListener(this);
@@ -131,7 +128,6 @@ public class OutputModifyActivity extends Activity implements OnClickListener {
 	 */
 	private void init() {
 		iv_back = (ImageView) findViewById(R.id.iv_back);
-		rl_new_output = (RelativeLayout) findViewById(R.id.rl_new_output);
 		et_output_money = (EditText) findViewById(R.id.et_output_money);
 		rl_output_type = (RelativeLayout) findViewById(R.id.rl_output_type);
 		tv_output_type = (TextView) findViewById(R.id.tv_output_type);
@@ -246,7 +242,7 @@ public class OutputModifyActivity extends Activity implements OnClickListener {
 			Log.d(TAG, year + "-" + month + "-" + day);
 			if (money1 <= 0) {
 				Toast.makeText(this, "金额不能为0", Toast.LENGTH_LONG).show();
-
+				return;
 			} else {
 				// 将数据保存导数据库并且存储支出总额
 				SQLiteDatabase db = dbHelper.getWritableDatabase();
